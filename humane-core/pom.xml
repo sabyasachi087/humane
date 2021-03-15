@@ -1,0 +1,190 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.sroyc</groupId>
+	<artifactId>humane-core</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>humane-core java library</name>
+	<description>humane-core - LGPL Java library</description>
+	<packaging>jar</packaging>
+	<url>https://mysite.com</url>
+
+
+	<properties>
+		<java.version>11</java.version>
+		<log4j.version>2.13.3</log4j.version>
+		<spring.version>5.3.3</spring.version>
+		<jackson.version>2.12.0</jackson.version>
+		<commonsio.version>2.8.0</commonsio.version>
+		<commonslang.version>3.11</commonslang.version>
+	</properties>
+
+	<build>
+		<testSourceDirectory>src/test/java</testSourceDirectory>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+			</testResource>
+		</testResources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<showDeprecation>true</showDeprecation>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>3.2.0</version>
+				<configuration>
+					<attach>true</attach>
+				</configuration>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0-M5</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>3.0.0-M1</version>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
+			<version>4.0.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<scope>provided</scope>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<scope>provided</scope>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<!-- Aspect Libraries -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<scope>provided</scope>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.9.6</version>
+		</dependency>
+
+
+
+		<!-- Mongo Dependencies -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-mongodb</artifactId>
+			<version>3.1.3</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongodb-driver-sync</artifactId>
+			<version>4.1.1</version>
+			<scope>provided</scope>
+		</dependency>
+
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${commonsio.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${commonslang.version}</version>
+		</dependency>
+
+
+		<!-- Test Dependencies -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<version>2.4.1</version>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>junit</groupId>
+					<artifactId>junit</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>de.flapdoodle.embed</groupId>
+			<artifactId>de.flapdoodle.embed.mongo</artifactId>
+			<version>3.0.0</version>
+			<scope>test</scope>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.7.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-junit-jupiter</artifactId>
+			<version>3.6.28</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+</project>

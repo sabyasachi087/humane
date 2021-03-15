@@ -1,0 +1,5 @@
+<app-header></app-header>
+<app-user *ngIf="selectedPage === HumanePageType.USER"></app-user>
+<app-role *ngIf="selectedPage === HumanePageType.ROLE"></app-role>
+<app-mapping *ngIf="selectedPage === HumanePageType.MAPPING"></app-mapping>
+<app-setting *ngIf="selectedPage === HumanePageType.SETTING"></app-setting>

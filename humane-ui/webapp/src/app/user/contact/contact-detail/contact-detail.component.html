@@ -1,0 +1,204 @@
+<mat-progress-bar mode="query" *ngIf="inProgress"></mat-progress-bar>
+<mat-accordion>
+    <mat-expansion-panel (opened)="panelOpenState = true"
+                         (closed)="panelOpenState = false" [expanded]="true">
+      <mat-expansion-panel-header >
+        <mat-panel-title>
+          {{selectedUser.lastName}}, {{selectedUser.firstName}}
+        </mat-panel-title>
+        <mat-panel-description>
+          <mat-icon>phone</mat-icon>
+          Phone Details
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <table style="margin-top: 2%; width: 100%;" mat-table [dataSource]="phoneRecordDataSource" >
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <td mat-cell *matCellDef="let row">
+              <button [disabled]="!isPhoneRecordsEditable" (click)="deletePhoneRecord(row)"  mat-icon-button  aria-label="Delete Phone Record">
+                  <mat-icon>delete</mat-icon>
+              </button>
+          </td>
+      </ng-container>
+        <ng-container matColumnDef="countryCode">
+            <th mat-header-cell *matHeaderCellDef>Country Code</th>
+            <td mat-cell *matCellDef="let row" >
+              <input type="text" size="4" [disabled]="!isPhoneRecordsEditable"
+              [(ngModel)]="row.phone.countryCode" matInput  placeholder="Country Code">
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="phoneNumber">
+            <th mat-header-cell *matHeaderCellDef>Phone Number</th>
+            <td mat-cell *matCellDef="let row">
+              <input type="text" size="20" [disabled]="!isPhoneRecordsEditable"
+                [(ngModel)]="row.phone.phoneNumber" matInput  placeholder="Phone Number">
+            </td>
+            
+        </ng-container>
+        <ng-container matColumnDef="primary">
+            <th mat-header-cell *matHeaderCellDef>Primary</th>
+            <td mat-cell *matCellDef="let row" >
+                <mat-radio-button [disabled]="!isPhoneRecordsEditable" [value]="row" name="phonePrimaryRadio" (click)="radiobuttonClick(row)"
+                 color="primary" [checked]="row.phone.primary"></mat-radio-button>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="phoneDisplayedCols"></tr>
+        <tr mat-row *matRowDef="let row; columns: phoneDisplayedCols;let indx = index;"
+           [ngClass]="{'odd-row': indx%2==1, 'even-row': indx%2==0 }"></tr>
+        <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No data to display</td>
+        </tr>
+       </table>
+       <mat-action-row>
+          <button *ngIf="!isPhoneRecordsEditable"  (click)="editPhoneRecords()"  mat-button color="primary" aria-label="Edit">
+            <mat-icon inline="true">edit</mat-icon> Edit
+          </button>
+          <button *ngIf="isPhoneRecordsEditable" [disabled]="inProgress" (click)="savePhoneRecords()" mat-button color="warn" aria-label="Save">
+            <mat-icon inline="true">save</mat-icon> Save
+          </button>
+          <button *ngIf="isPhoneRecordsEditable && isAddPhoneRecordAllowed"  [disabled]="inProgress"
+               (click)="addNewPhone()"  mat-button color="accent" aria-label="Save">
+            <mat-icon inline="true">add</mat-icon> Add
+          </button>
+      </mat-action-row>
+    </mat-expansion-panel>
+
+    <!-- User Address -->
+    <mat-expansion-panel (opened)="panelOpenState = true"
+                         (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{selectedUser.lastName}}, {{selectedUser.firstName}}
+        </mat-panel-title>
+        <mat-panel-description>
+          <mat-icon>contacts</mat-icon>
+          Address Details
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div>
+          <mat-grid-list cols="4" rowHeight="100px">
+            <mat-grid-tile colspan="1" >
+              <mat-form-field appearance="outline" style="width: 70%; border-color: red;">
+                  <mat-label>ID</mat-label>
+                  <input type="text" [(ngModel)]="editAddr.id" matInput  readonly placeholder="Auto Generated ID">
+                  <mat-hint>Auto generated</mat-hint>
+                </mat-form-field>
+          </mat-grid-tile>
+            <mat-grid-tile colspan="1" >
+              <mat-form-field appearance="outline" style="width: 70%;">
+                  <mat-label>Tag / Name</mat-label>
+                  <input color="primary" type="text" [(ngModel)]="editAddr.tag" matInput  placeholder="Ex: Home, Office etc.">
+                  <mat-hint>Tag for better readability</mat-hint>
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="1" >
+              <mat-form-field appearance="outline" style="width: 70%;">
+                  <mat-label>Line 1</mat-label>
+                  <input type="text" [(ngModel)]="editAddr.line1" matInput  placeholder="Ex. Flat X-NNN, XX Society">
+                </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="1" >
+              <mat-form-field appearance="outline" style="width: 70%;">
+                  <mat-label>Line 2</mat-label>
+                  <input type="text" [(ngModel)]="editAddr.line2" matInput  placeholder="Ex: Major Street">
+                </mat-form-field>
+          </mat-grid-tile>
+          </mat-grid-list>
+          <mat-grid-list cols="4" rowHeight="100px">
+            <mat-grid-tile colspan="1" >
+              <mat-form-field appearance="outline" style="width: 70%;">
+                  <mat-label>Landmark</mat-label>
+                  <input type="text" [(ngModel)]="editAddr.landmark" matInput  placeholder="Ex: Near landmark place">
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="1" >
+              <mat-form-field appearance="outline" style="width: 70%;">
+                  <mat-label>Area Code/Pin</mat-label>
+                  <input type="text" [(ngModel)]="editAddr.codeOrPin" matInput  placeholder="Ex: 705028">
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="1" >
+              <mat-form-field appearance="outline" style="width: 70%;">
+                  <mat-label>City</mat-label>
+                  <input type="text" [(ngModel)]="editAddr.city" matInput  placeholder="Ex. Mumbai">
+                </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="1" >
+              <mat-form-field appearance="outline" style="width: 70%;">
+                  <mat-label>State</mat-label>
+                  <input type="text" [(ngModel)]="editAddr.state" matInput  placeholder="Ex: Maharashtra">
+                </mat-form-field>
+          </mat-grid-tile>
+        </mat-grid-list>
+        <mat-grid-list cols="4" rowHeight="100px">
+          <mat-grid-tile colspan="1" >
+            <mat-form-field appearance="outline" style="width: 70%;">
+                <mat-label>Country</mat-label>
+                <input type="text" [(ngModel)]="editAddr.country" matInput  placeholder="Ex: India">
+              </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="1" >
+            <mat-checkbox style="width: 70%;" [(ngModel)]="editAddr.primary">Is Primary</mat-checkbox>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="1" >
+            <button  [disabled]="inProgress" (click)="clearEditAddress()"    mat-raised-button color="warn" aria-label="Clear">
+               <mat-icon inline="true">clear_all</mat-icon> Clear
+            </button>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="1" >
+            <button  [disabled]="inProgress"  (click)="saveUserAddresses()"   mat-raised-button color="primary" aria-label="Save">
+              <mat-icon inline="true">save</mat-icon> <span *ngIf="editAddr.id && editAddr.id.length> 0"> Update</span> 
+              <span *ngIf="!editAddr.id || !(editAddr.id.length > 0)"> Save</span> 
+           </button>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </div>
+      <div>
+        <table style="margin-top: 2%; width: 100%;" mat-table [dataSource]="addressRecordDataSource" >
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>Action</th>
+            <td mat-cell *matCellDef="let row">
+                <button [disabled]="inProgress" (click)="editAddressDetails(row)"  mat-icon-button  aria-label="Edit Address Record">
+                      <mat-icon>edit</mat-icon>
+                </button>
+                <button *ngIf="userAddresses.length > 1" [disabled]="inProgress" (click)="deleteUserAddress(row)"  mat-icon-button  aria-label="Delete Phone Record">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+          <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef>ID</th>
+              <td mat-cell *matCellDef="let row" >{{row.id}}</td>
+          </ng-container>
+          <ng-container matColumnDef="tag">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let row" >{{row.tag}}</td>
+          </ng-container>
+          <ng-container matColumnDef="line1">
+            <th mat-header-cell *matHeaderCellDef>Line 1</th>
+            <td mat-cell *matCellDef="let row" >{{row.line1}}</td>
+          </ng-container>
+          <ng-container matColumnDef="city">
+            <th mat-header-cell *matHeaderCellDef>City</th>
+            <td mat-cell *matCellDef="let row" >{{row.city}}</td>
+          </ng-container>
+          <ng-container matColumnDef="pinOrCode">
+            <th mat-header-cell *matHeaderCellDef>Pin/Code</th>
+            <td mat-cell *matCellDef="let row" >{{row.codeOrPin}}</td>
+          </ng-container>
+          <ng-container matColumnDef="primary">
+            <th mat-header-cell *matHeaderCellDef>Is Primary</th>
+            <td mat-cell *matCellDef="let row" >
+              <mat-radio-button  [value]="row" disabled name="addressPrimaryRadio"  color="primary" [checked]="row.primary"></mat-radio-button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="addressDisplayCols"></tr>
+          <tr mat-row *matRowDef="let row; columns: addressDisplayCols;let indx = index;"
+            [ngClass]="{'odd-row': indx%2==1, 'even-row': indx%2==0 }"></tr>
+          <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">No data to display</td>
+          </tr>
+        </table>
+      </div>
+    </mat-expansion-panel>
+</mat-accordion>

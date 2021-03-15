@@ -1,0 +1,31 @@
+<p>
+    <mat-toolbar color="primary">
+        <button mat-fab color="primary" aria-label="Example icon button with a home icon">
+            <mat-icon>home</mat-icon>
+          </button>
+
+      <span class="topbar-elem-spacer">&nbsp;</span>
+      <button (click)="navigateTo(SelectedPage.ROLE)" *ngIf="currentPage === SelectedPage.ROLE" mat-stroked-button 
+            class="topbar-button-clicked">Roles</button>
+      <button (click)="navigateTo(SelectedPage.ROLE)" *ngIf="!(currentPage === SelectedPage.ROLE)"
+          mat-button class="topbar-button-normal">Roles</button>
+
+      <span class="topbar-elem-spacer">&nbsp;</span>
+      <button (click)="navigateTo(SelectedPage.USER)" *ngIf="currentPage === SelectedPage.USER"
+             mat-stroked-button class="topbar-button-clicked">Users</button>
+      <button (click)="navigateTo(SelectedPage.USER)" *ngIf="!(currentPage === SelectedPage.USER)"
+                 mat-button class="topbar-button-normal">Users</button>
+                
+      <span class="topbar-elem-spacer">&nbsp;</span>
+      <button (click)="navigateTo(SelectedPage.MAPPING)" *ngIf="currentPage === SelectedPage.MAPPING"
+             mat-button class="topbar-button-clicked">Mapping</button>
+      <button (click)="navigateTo(SelectedPage.MAPPING)" *ngIf="!(currentPage === SelectedPage.MAPPING)" 
+            mat-button class="topbar-button-normal">Mapping</button>
+
+      <span class="topbar-elem-spacer">&nbsp;</span>
+      <button (click)="navigateTo(SelectedPage.SETTING)" *ngIf="currentPage === SelectedPage.SETTING"
+         mat-button class="topbar-button-clicked">Setting</button>
+      <button (click)="navigateTo(SelectedPage.SETTING)"  *ngIf="!(currentPage === SelectedPage.SETTING)"
+         mat-button class="topbar-button-normal">Setting</button>
+    </mat-toolbar>
+</p>

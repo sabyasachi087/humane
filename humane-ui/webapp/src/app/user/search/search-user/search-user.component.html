@@ -1,0 +1,69 @@
+<mat-progress-bar mode="query" *ngIf="inProgress"></mat-progress-bar>
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Find User(s)</mat-card-title>
+    </mat-card-header>
+    
+    <mat-card-content>
+        <div>
+            <mat-grid-list cols="3" rowHeight="100px">
+                <mat-grid-tile colspan="2" >
+                    <mat-form-field appearance="outline" style="width: 100%; color: lightsalmon;">
+                        <mat-label>Search</mat-label>
+                        
+                        <input #searchBox autofocus  type="text" [(ngModel)]="searchText" (keyup.enter)="findUser()" matInput placeholder="Ex: name or email">
+                        <button [disabled]="inProgress"  (click)="findUser()"  mat-mini-fab matPrefix color="primary" style="margin-right: 10px;"><mat-icon>search</mat-icon></button>
+                    </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile colspan="1" >
+                    <section style="width: 100%; margin-left: 5%;">
+                        <span style="margin-right: 2%; color: lightblue;"><mat-icon>settings</mat-icon> Include </span>
+                        <mat-checkbox [(ngModel)]="isActive" style="margin-right: 5%;" color="primary" aria-label="Active" >Active</mat-checkbox>
+                        <mat-checkbox [(ngModel)]="isDelete"  color="warn" aria-label="Delete" >Delete</mat-checkbox>
+                    </section>
+                </mat-grid-tile>
+            </mat-grid-list>
+        </div>
+        
+
+        <div *ngIf="userResultList.length > 0">
+            <table style="margin-top: 2%; width: 100%;" mat-table [dataSource]="userResultList" >
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef>Action</th>
+                    <td mat-cell *matCellDef="let row">
+                        <button mat-icon-button  aria-label="Edit User" (click)="editUser(row)" >
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button  aria-label="Edit Contact" (click)="editContact(row)" >
+                            <mat-icon>contacts</mat-icon>
+                        </button>
+                        <button mat-icon-button  aria-label="Edit Roles" (click)="editRoles(row)" >
+                            <mat-icon>person</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="userId">
+                    <th mat-header-cell *matHeaderCellDef>User Id</th>
+                    <td mat-cell *matCellDef="let row">{{row.userId}}</td>
+                </ng-container>
+                <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef>Email</th>
+                    <td mat-cell *matCellDef="let row">{{row.email}}</td>
+                </ng-container>
+                <ng-container matColumnDef="active">
+                    <th mat-header-cell *matHeaderCellDef>Active</th>
+                    <td mat-cell *matCellDef="let row">{{row.active}}</td>
+                </ng-container>
+                <ng-container matColumnDef="delete">
+                    <th mat-header-cell *matHeaderCellDef>Delete</th>
+                    <td mat-cell *matCellDef="let row">{{row.delete}}</td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;let indx = index;"
+                 [ngClass]="{'odd-row': indx%2==1, 'even-row': indx%2==0, 'danger-row': row.delete }"></tr>
+           </table>
+        </div>
+
+    </mat-card-content>
+    
+</mat-card>

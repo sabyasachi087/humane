@@ -1,0 +1,30 @@
+<mat-tab-group [selectedIndex]="dataFeed.userTabIndex" (selectedIndexChange)="setUserTabIndex($event)">
+    <mat-tab label="Search User"> 
+        <ng-template matTabContent >
+            <div style="margin-left: 1%;margin-top: 1%;margin-right: 1%;margin-bottom: 2%;">
+                <app-search-user></app-search-user>
+            </div>
+          </ng-template>    
+    </mat-tab>
+    <mat-tab label="User Information"> 
+        <ng-template matTabContent >
+            <div style="margin-left: 1%;margin-top: 1%;margin-right: 1%;margin-bottom: 2%;">
+                <app-create-user></app-create-user>
+            </div>
+          </ng-template>    
+    </mat-tab>
+    <mat-tab label="Contact Details"> 
+        <ng-template matTabContent >
+            <div style="margin-left: 1%;margin-top: 1%;margin-right: 1%;margin-bottom: 2%;">
+                <app-contact-detail></app-contact-detail>
+            </div>
+          </ng-template>    
+    </mat-tab>
+    <mat-tab label="Role Mapping">
+        <ng-template matTabContent >
+            <div style="margin-left: 1%;margin-top: 1%;margin-right: 1%;margin-bottom: 2%;">
+                <app-user-role></app-user-role>
+            </div>
+          </ng-template>
+    </mat-tab>
+</mat-tab-group>
